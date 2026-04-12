@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synapps — Marco Ciocia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0b;
+    --surface: #111113;
+    --card: #17171a;
+    --card-hover: #1e1e22;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.14);
+    --orange: #ff6b2b;
+    --orange-dim: rgba(255,107,43,0.12);
+    --teal: #00d4aa;
+    --teal-dim: rgba(0,212,170,0.1);
+    --text: #f0ede8;
+    --text-muted: #6b6b75;
+    --text-mid: #9d9da8;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --display: 'Bebas Neue', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 2px; }
+  ::selection { background: var(--teal); color: #000; }
+
+  .cursor-dot {
+    width: 8px; height: 8px;
+    background: var(--teal);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--teal);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.4s ease, width 0.3s, height 0.3s;
+    opacity: 0.5;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 3rem;
+    backdrop-filter: blur(20px);
+    background: rgba(10,10,11,0.8);
+    border-bottom: 1px solid var(--border);
+    transition: padding 0.3s;
+  }
+  nav.scrolled { padding: 1rem 3rem; }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--orange);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--text-muted); }
+  .nav-back {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--teal); }
+  .nav-back::before { content: '←'; }
+
+  .project-hero {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10rem 3rem 5rem;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-bg-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 20% 80%, black 30%, transparent 100%);
+  }
+  .hero-accent {
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,212,170,0.07) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    pointer-events: none;
+  }
+  .project-num {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--teal);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .project-num::before { content: '// '; color: var(--text-muted); }
+  .project-title {
+    font-family: var(--display);
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: 0.01em;
+    color: var(--text);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .project-tagline {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    letter-spacing: 0.06em;
+    margin-top: 2rem;
+    max-width: 600px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .project-meta {
+    display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-github {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.9rem 2rem;
+    background: var(--teal);
+    color: #000;
+    font-weight: 500;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-github:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,212,170,0.25); }
+  .meta-tag {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.9rem 1.5rem;
+    border: 1px solid var(--border-hover);
+    color: var(--text-muted);
+  }
+
+  .project-image-area {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: none;
+    padding: 4rem 3rem;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 400px;
+  }
+  .image-placeholder-text {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    border: 1px dashed var(--border);
+    padding: 3rem 4rem;
+    text-align: center;
+  }
+  .image-placeholder-text span {
+    display: block;
+    font-size: 0.6rem;
+    opacity: 0.5;
+    margin-top: 0.5rem;
+  }
+
+  .project-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 3rem;
+  }
+  .content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--teal);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .section-label::before { content: '// '; color: var(--text-muted); }
+
+  .content-body h3 {
+    font-family: var(--display);
+    font-size: 2.5rem;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    line-height: 1;
+  }
+  .content-body p {
+    color: var(--text-mid);
+    font-size: 1rem;
+    line-height: 1.9;
+    margin-bottom: 1.5rem;
+  }
+  .content-body p strong { color: var(--text); font-weight: 500; }
+
+  .feature-list { list-style: none; margin-top: 2rem; }
+  .feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-mid);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  .feature-list li:last-child { border-bottom: none; }
+  .feature-list li::before {
+    content: '◆';
+    color: var(--teal);
+    font-size: 0.5rem;
+    margin-top: 0.45rem;
+    flex-shrink: 0;
+  }
+
+  /* Fan-out visual */
+  .fanout-demo {
+    margin-top: 2rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+    min-height: 120px;
+  }
+  .fanout-icon {
+    width: 48px; height: 48px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    color: var(--teal);
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+  .fanout-icon.main {
+    background: var(--teal-dim);
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+  .fanout-arrow {
+    color: var(--text-muted);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+  }
+  .fanout-label {
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 0.4rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .fanout-group { display: flex; flex-direction: column; align-items: center; }
+
+  .sidebar { position: sticky; top: 8rem; }
+  .sidebar-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .sidebar-block h4 {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .stack-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .stack-badge {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.7rem;
+    background: var(--teal-dim);
+    color: var(--teal);
+  }
+  .info-row {
+    display: flex; justify-content: space-between;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-row .label { color: var(--text-muted); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.08em; }
+  .info-row .value { color: var(--text); }
+
+  .back-section {
+    border-top: 1px solid var(--border);
+    padding: 4rem 3rem;
+    text-align: center;
+    background: var(--surface);
+  }
+  .back-link {
+    font-family: var(--display);
+    font-size: 2rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.3s;
+  }
+  .back-link:hover { color: var(--teal); }
+
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer p { font-family: var(--mono); font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.1em; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9997;
+    opacity: 0.4;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .project-hero { padding: 8rem 1.5rem 4rem; }
+    .project-content { padding: 3rem 1.5rem; }
+    .content-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .sidebar { position: static; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="dot"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<nav id="nav">
+  <a class="nav-logo" href="../index.html">MC<span>.ai</span></a>
+  <a class="nav-back" href="../index.html#projects">Portfolio</a>
+</nav>
+
+<section class="project-hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-accent"></div>
+  <div class="project-num">02 / Progetto</div>
+  <h1 class="project-title">SYNAPPS</h1>
+  <p class="project-tagline">
+    // Icon stacks per il desktop Windows. Raggruppa app, file e cartelle dietro una sola icona — tieni premuto per aprire a ventaglio, clicca per lanciare.
+  </p>
+  <div class="project-meta">
+    <a class="btn-github" href="https://github.com/marco-ciocia-dev/synapps" target="_blank">↗ Vedi su GitHub</a>
+    <span class="meta-tag">Windows</span>
+    <span class="meta-tag">Desktop</span>
+  </div>
+</section>
+
+<div class="project-content">
+  <div class="content-grid">
+
+    <div class="content-main">
+
+      <div class="reveal">
+        <div class="section-label">Il Problema</div>
+        <div class="content-body">
+          <h3>Il desktop era un casino.</h3>
+          <p>
+            Decine di icone sparse, cartelle di accesso rapido che si moltiplicano,
+            nessun modo intelligente di raggruppare le cose che usi insieme.
+            <strong>Synapps risolve il problema con un'idea semplice:</strong>
+            un'icona sola che ne nasconde molte.
+          </p>
+        </div>
+      </div>
+
+      <div class="reveal" style="margin-top: 3rem;">
+        <div class="section-label">Come Funziona</div>
+        <div class="content-body">
+          <h3>Tieni → apre. Clicca → lancia.</h3>
+          <p>
+            Ogni "synapp" è uno stack visivo che raggruppa app, file o cartelle correlate.
+            Un tap breve lancia l'elemento principale. Un tap lungo fa aprire tutto il gruppo a ventaglio —
+            puoi scegliere cosa aprire senza cambiare desktop.
+          </p>
+        </div>
+        <div class="fanout-demo">
+          <div class="fanout-group">
+            <div class="fanout-icon main">STACK</div>
+            <div class="fanout-label">Hold</div>
+          </div>
+          <div class="fanout-arrow">→</div>
+          <div class="fanout-group">
+            <div class="fanout-icon">App 1</div>
+            <div class="fanout-label">Item</div>
+          </div>
+          <div class="fanout-group">
+            <div class="fanout-icon">App 2</div>
+            <div class="fanout-label">Item</div>
+          </div>
+          <div class="fanout-group">
+            <div class="fanout-icon">File</div>
+            <div class="fanout-label">Item</div>
+          </div>
+          <div class="fanout-group">
+            <div class="fanout-icon">Folder</div>
+            <div class="fanout-label">Item</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal" style="margin-top: 4rem;">
+        <div class="section-label">Funzionalità</div>
+        <ul class="feature-list">
+          <li>Raggruppa app, file e cartelle in un singolo stack sul desktop</li>
+          <li>Hold per aprire a ventaglio, click per lanciare direttamente</li>
+          <li>Integrazione nativa con Windows — nessun processo pesante in background</li>
+          <li>Personalizzazione dell'icona e del nome dello stack</li>
+          <li>Gestione drag &amp; drop per aggiungere elementi allo stack</li>
+        </ul>
+      </div>
+
+      <div class="reveal" style="margin-top: 4rem;">
+        <div class="section-label">Cosa ho imparato</div>
+        <div class="content-body">
+          <h3>UX minimalista, integrazione OS.</h3>
+          <p>
+            La sfida principale era rendere il fan-out fluido e non invasivo:
+            non deve sembrare un'app in più, ma una feature naturale del desktop.
+            Ho lavorato molto sull'animazione e sul timing dell'apertura a ventaglio.
+          </p>
+          <p>
+            Integrare tool con il filesystem di Windows e gestire i percorsi
+            in modo robusto mi ha insegnato molto sulla differenza tra un prototipo
+            e qualcosa che funziona davvero su hardware reale.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <aside class="sidebar">
+
+      <div class="sidebar-block reveal">
+        <h4>Tech Stack</h4>
+        <div class="stack-list">
+          <span class="stack-badge">Windows</span>
+          <span class="stack-badge">Desktop App</span>
+          <span class="stack-badge">File System</span>
+        </div>
+      </div>
+
+      <div class="sidebar-block reveal">
+        <h4>Info Progetto</h4>
+        <div class="info-row">
+          <span class="label">Tipo</span>
+          <span class="value">Desktop tool</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Piattaforma</span>
+          <span class="value">Windows</span>
+        </div>
+        <div class="info-row">
+          <span class="label">UX</span>
+          <span class="value">Hold to fan out</span>
+        </div>
+      </div>
+
+      <div class="sidebar-block reveal">
+        <h4>GitHub</h4>
+        <a class="btn-github" href="https://github.com/marco-ciocia-dev/synapps" target="_blank" style="width:100%; justify-content:center; margin-top:0.5rem;">↗ marco-ciocia-dev/synapps</a>
+      </div>
+
+    </aside>
+
+  </div>
+</div>
+
+<div class="back-section">
+  <a class="back-link" href="../index.html#projects">← Tutti i Progetti</a>
+</div>
+
+<footer>
+  <p>© 2025 Marco Ciocia</p>
+  <p>marco.ciocia97@gmail.com</p>
+</footer>
+
+<script>
+  const dot = document.getElementById('dot');
+  const ring = document.getElementById('ring');
+  document.addEventListener('mousemove', e => {
+    dot.style.transform = `translate(${e.clientX - 4}px, ${e.clientY - 4}px)`;
+    ring.style.transform = `translate(${e.clientX - 18}px, ${e.clientY - 18}px)`;
+  });
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
