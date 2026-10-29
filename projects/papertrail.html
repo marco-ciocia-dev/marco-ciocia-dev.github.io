@@ -404,14 +404,14 @@
 <section class="project-hero">
   <div class="hero-bg-grid"></div>
   <div class="hero-accent"></div>
-  <div class="project-num">01 / Progetto</div>
+  <div class="project-num">02 / Progetto</div>
   <h1 class="project-title">PAPER<br>TRAIL</h1>
   <p class="project-tagline">
-    // AI-powered expense management. Fotografa uno scontrino — Claude Vision estrae i dati in automatico.
+    // Note spese da foto. Fotografi lo scontrino, Claude Vision estrae i dati, l'export va al commercialista.
   </p>
   <div class="project-meta">
     <a class="btn-github" href="https://github.com/marco-ciocia-dev/papertrail" target="_blank">↗ Vedi su GitHub</a>
-    <span class="meta-tag">JavaScript</span>
+    <span class="meta-tag">React</span>
     <span class="meta-tag">2025</span>
   </div>
 </section>
@@ -428,12 +428,12 @@
         <div class="content-body">
           <h3>Gestione spese senza attrito</h3>
           <p>
-            Ogni azienda ha il problema degli scontrini: li raccogli, li perdi, li fotografi male,
-            li inserisci a mano nel gestionale. <strong>PaperTrail elimina tutto questo step.</strong>
+            In un'impresa edile i soci a fine anno ricopiavano a mano in Excel decine di scontrini:
+            data, esercente, importo, numero fiscale, uno per uno. <strong>PaperTrail toglie questo passaggio.</strong>
           </p>
           <p>
-            Nato da un'esigenza reale e in uso quotidiano in un'azienda reale — non un progetto demo,
-            ma uno strumento che risolve un problema concreto ogni giorno.
+            Sviluppato su commissione per quell'impresa e in uso ogni giorno: non una demo,
+            ma uno strumento che risolve un problema concreto.
           </p>
         </div>
       </div>
@@ -443,17 +443,17 @@
         <div class="content-body">
           <h3>Scatta, estrai, registra.</h3>
           <p>
-            L'utente fotografa lo scontrino con il telefono. Claude Vision analizza l'immagine
-            e ne estrae strutturata: importo, data, categoria, fornitore.
-            I dati vengono salvati automaticamente in Supabase.
+            L'utente fotografa lo scontrino con il telefono (anche in HEIC da iPhone). Claude Vision
+            analizza l'immagine ed estrae i dati in forma strutturata; l'utente li conferma o li corregge,
+            poi esporta tutto in Excel o PDF.
           </p>
         </div>
         <ul class="feature-list">
-          <li>Lettura scontrini via Claude Vision API — zero digitazione manuale</li>
-          <li>Estrazione strutturata: importo, IVA, data, categoria, fornitore</li>
-          <li>Persistenza su Supabase con storico completo delle spese</li>
-          <li>Categorizzazione automatica delle voci di spesa</li>
-          <li>Pensato per uso aziendale quotidiano, non solo demo</li>
+          <li>Lettura scontrini con Claude Vision API, senza digitazione manuale</li>
+          <li>Estrazione strutturata: data, esercente, importo, numero fiscale</li>
+          <li>Revisione dell'utente prima dell'export, spese organizzate per persona</li>
+          <li>Export in Excel (ExcelJS) e PDF pronto per il commercialista</li>
+          <li>Funzioni serverless su Vercel: la chiave API resta sul server, conversione HEIC lato server</li>
         </ul>
       </div>
 
@@ -468,7 +468,7 @@
           </p>
           <p>
             Ho integrato validazione lato client per i casi in cui l'AI restituisce
-            dati parziali o ambigui — il flusso si adatta invece di bloccarsi.
+            dati parziali o ambigui: il flusso si adatta invece di bloccarsi.
           </p>
         </div>
       </div>
@@ -481,10 +481,11 @@
       <div class="sidebar-block reveal">
         <h4>Tech Stack</h4>
         <div class="stack-list">
-          <span class="stack-badge">JavaScript</span>
+          <span class="stack-badge">React</span>
+          <span class="stack-badge">Vite</span>
           <span class="stack-badge">Claude Vision API</span>
-          <span class="stack-badge">Supabase</span>
-          <span class="stack-badge">OCR</span>
+          <span class="stack-badge">Vercel serverless</span>
+          <span class="stack-badge">ExcelJS</span>
         </div>
       </div>
 
@@ -499,8 +500,8 @@
           <span class="value">Tool aziendale</span>
         </div>
         <div class="info-row">
-          <span class="label">Linguaggio</span>
-          <span class="value">JavaScript</span>
+          <span class="label">Stack</span>
+          <span class="value">React + Vercel</span>
         </div>
         <div class="info-row">
           <span class="label">Status</span>

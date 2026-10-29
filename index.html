@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Marco Ciocia — AI Builder</title>
+<title>Marco Ciocia - AI Engineer</title>
+<meta name="description" content="Marco Ciocia, AI Engineer. Porto l'AI in produzione su problemi concreti: estrazione da documenti, RAG, agenti. Fondatore di Cantra, il software per i POS di cantiere.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -450,6 +451,23 @@
     color: var(--orange);
     margin-bottom: 1.2rem;
   }
+  .skill-list { list-style: none; }
+  .skill-list li {
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+  }
+  .skill-list li:last-child { border-bottom: none; }
+  .skill-list li span {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
   .skill-item { margin-bottom: 0.8rem; }
   .skill-name {
     font-size: 0.85rem;
@@ -566,12 +584,48 @@
     transform: translateY(0);
   }
 
+
+  /* ───── METODO (schema PSC) ───── */
+  #metodo { background: var(--surface); }
+  .method { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 5rem; align-items: start; }
+  .method-intro { color: var(--text-mid); font-size: 1.05rem; line-height: 1.8; margin-bottom: 2rem; }
+  .method-intro strong { color: var(--text); font-weight: 500; }
+  .steps { list-style: none; counter-reset: s; border-top: 1px solid var(--border); }
+  .steps li { counter-increment: s; display: grid; grid-template-columns: 2.5rem 1fr; gap: 0.5rem; padding: 1rem 0; border-bottom: 1px solid var(--border); color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+  .steps li::before { content: counter(s, decimal-leading-zero); font-family: var(--mono); font-size: 0.7rem; color: var(--orange); padding-top: 0.2rem; }
+  .steps b { color: var(--text); font-weight: 500; }
+  .diagram { background: var(--card); border: 1px solid var(--border); padding: 2rem; }
+  .diagram svg { display: block; width: 100%; height: auto; }
+  .diagram svg text { font-family: var(--mono); fill: var(--text); }
+  .diagram figcaption { margin-top: 1.2rem; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); line-height: 1.7; }
+
+  /* ───── PERCORSO ───── */
+  #percorso { background: var(--bg); }
+  .track { display: grid; grid-template-columns: repeat(7, 1fr); border-left: 1px solid var(--border-hover); margin-bottom: 1rem; }
+  .year { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; color: var(--text-muted); padding: 0 0 0.6rem 0.5rem; border-right: 1px solid var(--border); }
+  .span { position: relative; height: 3rem; display: flex; align-items: center; }
+  .span .line { position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--text-mid); }
+  .span .line::before, .span .line::after { content: ''; position: absolute; top: -7px; width: 1px; height: 15px; background: var(--text-mid); }
+  .span .line::before { left: 0; }
+  .span .line::after { right: 0; }
+  .span.now .line, .span.now .line::before, .span.now .line::after { background: var(--orange); }
+  .span .lab { position: relative; background: var(--bg); padding: 0 0.8rem; margin-left: 1rem; color: var(--text); font-size: 0.95rem; font-weight: 500; white-space: nowrap; }
+  .span .lab small { font-family: var(--mono); font-size: 0.6rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-left: 0.6rem; }
+  .span.end { justify-content: flex-end; }
+  .span.end .lab { margin-left: 0; margin-right: 1rem; }
+
   /* ───── MOBILE ───── */
   @media (max-width: 768px) {
     nav { padding: 1.2rem 1.5rem; }
     .nav-links { display: none; }
     #hero { padding: 0 1.5rem 4rem; }
-    .hero-counter { display: none; }
+    .hero-counter { position: static; transform: none; flex-direction: row; flex-wrap: wrap; gap: 1.5rem 2rem; margin-top: 2.5rem; }
+    .counter-item { text-align: left; }
+    .method { grid-template-columns: 1fr; gap: 3rem; }
+    .diagram { padding: 1rem; }
+    .track { display: none; }
+    .span, .span.end { margin-left: 0 !important; width: 100% !important; justify-content: flex-start; height: auto; min-height: 3rem; }
+    .span .lab, .span.end .lab { white-space: normal; margin-left: 1rem; margin-right: 0; }
     section { padding: 5rem 1.5rem; }
     .about-grid { grid-template-columns: 1fr; gap: 3rem; }
     .project-card.span-8,
@@ -605,6 +659,8 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#projects">Progetti</a></li>
+    <li><a href="#metodo">Metodo</a></li>
+    <li><a href="#percorso">Percorso</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#contact">Contatti</a></li>
   </ul>
@@ -619,24 +675,29 @@
 
   <div class="hero-counter">
     <div class="counter-item">
-      <div class="counter-num">3+</div>
-      <div class="counter-label">Progetti</div>
+      <div class="counter-num">6</div>
+      <div class="counter-label">Imprese paganti su Cantra</div>
     </div>
     <div class="counter-item">
-      <div class="counter-num">2025</div>
-      <div class="counter-label">Anno di lancio</div>
+      <div class="counter-num">1.000+</div>
+      <div class="counter-label">Test automatici</div>
     </div>
     <div class="counter-item">
-      <div class="counter-num">IT</div>
-      <div class="counter-label">Basato a Milano</div>
+      <div class="counter-num">153</div>
+      <div class="counter-label">Fasi validate da un RSPP</div>
+    </div>
+    <div class="counter-item">
+      <div class="counter-num">200+</div>
+      <div class="counter-label">Test sulla lettura PSC</div>
     </div>
   </div>
 
-  <div class="hero-tag">AI Builder · Vibe Coder · Automation</div>
+  <div class="hero-tag">AI Engineer · LLM in produzione · Construction tech</div>
   <h1 class="hero-name">MARCO<br><span class="orange">CIOCIA</span></h1>
   <p class="hero-subtitle">
-    // Costruisco applicazioni AI pratiche, automazioni e tool intelligenti.<br>
-    Dal mondo fisico al digitale — un commit alla volta.
+    // AI che regge in produzione.<br>
+    Sei anni a compilare POS a mano nell'impresa di famiglia, poi ho costruito Cantra:
+    oggi li prepara per 6 imprese paganti e legge i PSC unendo regole e LLM.
   </p>
   <div class="hero-ctas">
     <a class="btn-primary" href="#projects">Guarda i progetti</a>
@@ -665,31 +726,30 @@
       <h2>Da costruire<br>fisicamente a costruire<br><span style="color:var(--orange)">digitalmente.</span></h2>
 
       <p>
-        Anni di lavoro manuale mi hanno insegnato una cosa fondamentale:
-        <strong>ogni problema ha una soluzione pratica</strong>.
-        Oggi applico questa mentalità al mondo dell'AI — costruendo strumenti
-        reali che risolvono problemi reali.
+        Ho lavorato sei anni nell'impresa edile della mia famiglia, spesso dietro la burocrazia:
+        <strong>POS compilati a mano per giornate intere</strong>. Da l&igrave; &egrave; nato Cantra,
+        il software che oggi li prepara per 6 imprese che pagano un abbonamento.
       </p>
       <p>
-        Mi muovo tra <strong>vibe coding</strong>, automazioni e applicazioni
-        di intelligenza artificiale. Non cerco di capire tutto —
-        cerco di costruire cose che funzionano.
+        Lavoro sull'AI che deve reggere in produzione: <strong>estrazione da documenti,
+        output strutturati, RAG, agenti</strong>. Con test, controlli automatici e una persona
+        che rivede il risultato prima che venga usato.
       </p>
       <p>
-        Background in audio engineering, diplomi in sound design,
-        e un obiettivo chiaro: diventare un builder AI riconoscibile.
+        Da giugno 2026 sono AI Specialist in Forever Bamb&ugrave;. Prima ancora, diploma da fonico
+        e uno studio di registrazione: M2 Studios.
       </p>
 
       <div class="about-chips">
-        <span class="chip active">AI Tools</span>
-        <span class="chip active">Vibe Coding</span>
-        <span class="chip active">Automazioni</span>
-        <span class="chip">N8N</span>
-        <span class="chip">Make</span>
-        <span class="chip">ChatGPT API</span>
+        <span class="chip active">LLM in produzione</span>
+        <span class="chip active">Estrazione da documenti</span>
+        <span class="chip active">RAG</span>
+        <span class="chip active">Agenti</span>
         <span class="chip">Claude API</span>
-        <span class="chip">Cursor</span>
+        <span class="chip">OpenAI API</span>
+        <span class="chip">TypeScript</span>
         <span class="chip">Python</span>
+        <span class="chip">PostgreSQL</span>
         <span class="chip">Supabase</span>
       </div>
     </div>
@@ -703,33 +763,53 @@
 
   <div class="projects-grid">
 
-    <!-- PROJECT 1 — PAPERTRAIL (span 8) -->
-    <a class="project-card span-8" href="projects/papertrail.html">
+    <!-- PROJECT 1 - CANTRA (span 12) -->
+    <a class="project-card span-12" href="projects/cantra.html">
       <span class="project-arrow">↗</span>
-      <div class="project-num">01 / PaperTrail</div>
+      <div class="project-num">01 / Cantra</div>
 
-      <div class="project-name">PAPERTRAIL</div>
+      <div class="project-name">CANTRA</div>
       <p class="project-desc">
-        AI-powered expense management. Fotografa uno scontrino —
-        Claude Vision estrae i dati in automatico. In uso quotidiano
-        in un'azienda reale.
+        Il software per i POS di cantiere, costruito da solo e usato da 6 imprese paganti.
+        Legge il PSC in PDF unendo regole e LLM: dati personali mascherati prima dell'invio,
+        citazioni verificate, revisione dell'utente. App Windows e Mac, backend Supabase, oltre 1.000 test.
       </p>
       <div class="project-stack">
-        <span class="stack-tag">JavaScript</span>
-        <span class="stack-tag">Claude Vision</span>
+        <span class="stack-tag">LLM multi-provider</span>
+        <span class="stack-tag">Estrazione da PDF</span>
+        <span class="stack-tag">Electron</span>
+        <span class="stack-tag">TypeScript</span>
         <span class="stack-tag">Supabase</span>
-        <span class="stack-tag">OCR</span>
+        <span class="stack-tag">Stripe</span>
       </div>
     </a>
 
-    <!-- PROJECT 2 — SYNAPPS (span 4) -->
+    <!-- PROJECT 2 - PAPERTRAIL (span 8) -->
+    <a class="project-card span-8" href="projects/papertrail.html">
+      <span class="project-arrow">↗</span>
+      <div class="project-num">02 / PaperTrail</div>
+
+      <div class="project-name">PAPERTRAIL</div>
+      <p class="project-desc">
+        Note spese da foto: Claude Vision estrae i dati dello scontrino,
+        l'utente conferma, export in Excel e PDF. In uso ogni giorno in un'impresa edile.
+      </p>
+      <div class="project-stack">
+        <span class="stack-tag">React</span>
+        <span class="stack-tag">Claude Vision</span>
+        <span class="stack-tag">Vercel</span>
+        <span class="stack-tag">ExcelJS</span>
+      </div>
+    </a>
+
+    <!-- PROJECT 3 - SYNAPPS (span 4) -->
     <a class="project-card span-4 teal" href="projects/synapps.html">
       <span class="project-arrow">↗</span>
-      <div class="project-num">02 / Synapps</div>
+      <div class="project-num">03 / Synapps</div>
 
       <div class="project-name">SYNAPPS</div>
       <p class="project-desc">
-        Icon stacks per Windows. Raggruppa app e file dietro una sola icona —
+        Icon stacks per Windows. Raggruppa app e file dietro una sola icona:
         tieni premuto per aprire a ventaglio.
       </p>
       <div class="project-stack">
@@ -738,15 +818,15 @@
       </div>
     </a>
 
-    <!-- PROJECT 3 — AGGREGAI (span 12) -->
+    <!-- PROJECT 4 - AGGREGAI (span 12) -->
     <a class="project-card span-12 teal" href="projects/aggregai.html">
       <span class="project-arrow">↗</span>
-      <div class="project-num">03 / aggregAI</div>
+      <div class="project-num">04 / aggregAI</div>
 
       <div class="project-name">AGGREGAI</div>
       <p class="project-desc">
-        Multi-LLM chat platform con memoria semantica persistente via pgvector.
-        Un'unica interfaccia per Claude, GPT-4, Gemini, Groq e Ollama — il contesto non si perde mai.
+        Chat multi-LLM con memoria semantica su pgvector e ricerca ibrida full-text e semantica.
+        Un'unica interfaccia per Claude, GPT, Gemini, Groq e Ollama.
       </p>
       <div class="project-stack">
         <span class="stack-tag teal">Python</span>
@@ -760,6 +840,81 @@
   </div>
 </section>
 
+<!-- ─── METODO ─── -->
+<section id="metodo">
+  <div class="section-tag">Metodo</div>
+  <h2>Come Cantra<br>legge un PSC.</h2>
+  <div class="method">
+    <div class="reveal">
+      <p class="method-intro">Il Piano di Sicurezza e Coordinamento arriva in PDF e ogni studio lo scrive a modo suo. <strong>Un dato sbagliato in un documento di sicurezza non &egrave; accettabile</strong>, quindi il modello lavora dentro dei paletti.</p>
+      <ol class="steps">
+            <li><span><b>Regole prima.</b> Sezioni, etichette e sinonimi estraggono il grosso in modo deterministico.</span></li>
+            <li><span><b>Solo il necessario all'LLM.</b> Campi mancanti o incerti, solo le pagine che servono, al massimo 30.</span></li>
+            <li><span><b>Dati personali mascherati sul PC.</b> Nomi, codici fiscali, P.IVA, IBAN diventano segnaposto prima dell'invio.</span></li>
+            <li><span><b>Citazioni verificate.</b> Ogni proposta deve citare il documento; la citazione viene controllata.</span></li>
+            <li><span><b>Decide l'utente.</b> I valori restano "da controllare" finch&eacute; qualcuno non li conferma.</span></li>
+          </ol>
+    </div>
+    <figure class="diagram reveal">
+      <svg viewBox="0 0 640 372" role="img" aria-labelledby="dg-t dg-d">
+            <title id="dg-t">Schema della lettura del PSC</title>
+            <desc id="dg-d">Il PDF passa alle regole deterministiche. I campi certi vanno direttamente alla revisione dell'utente. I campi incerti vengono mascherati, l'unico passaggio fuori dal PC e' il modello, la risposta torna sul PC e viene verificata sulle citazioni, poi passa alla revisione dell'utente che produce il POS.</desc>
+            <defs>
+              <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ff6b2b"/></marker>
+              <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#ff6b2b" stroke-width="0.6" opacity="0.5"/></pattern>
+            </defs>
+            <g fill="none" stroke="#9d9da8" stroke-width="1.2">
+              <path d="M125 16 H452 V356 H125 Z" stroke="#00d4aa" stroke-dasharray="2 4" stroke-width="0.9"/>
+              <path d="M20 30 h68 l18 18 v62 h-86 z"/><path d="M88 30 v18 h18"/>
+              <rect x="140" y="40" width="120" height="56"/>
+              <rect x="310" y="40" width="120" height="56" fill="url(#hatch)"/>
+              <rect x="500" y="40" width="120" height="56"/>
+              <rect x="310" y="160" width="120" height="56"/>
+              <rect x="140" y="280" width="120" height="56" stroke="#ff6b2b" stroke-width="2"/>
+              <path d="M500 270 h56 l18 18 v62 h-74 z"/><path d="M556 270 v18 h18"/>
+              <path d="M106 68 H136" marker-end="url(#ar)"/>
+              <path d="M260 68 H306" marker-end="url(#ar)"/>
+              <path d="M430 68 H496" marker-end="url(#ar)"/>
+              <path d="M596 96 V188 H434" marker-end="url(#ar)"/>
+              <path d="M370 216 V248 H230 V276" marker-end="url(#ar)"/>
+              <path d="M180 96 V276" marker-end="url(#ar)"/>
+              <path d="M260 308 H496" marker-end="url(#ar)"/>
+            </g>
+            <g font-size="11">
+              <text x="36" y="76">PSC</text><text x="36" y="90" font-size="9">.pdf</text>
+              <text x="152" y="64">REGOLE</text><text x="152" y="80" font-size="9">sezioni, etichette</text>
+              <text x="322" y="64">MASCHERA</text><text x="322" y="80" font-size="9">nomi, CF, IBAN</text>
+              <text x="512" y="64">LLM</text><text x="512" y="80" font-size="9">6 provider</text>
+              <text x="322" y="184">VERIFICA</text><text x="322" y="200" font-size="9">citazioni</text>
+              <text x="152" y="304">REVISIONE</text><text x="152" y="320" font-size="9">dell'utente</text>
+              <text x="516" y="318">POS</text>
+              <text x="266" y="60" font-size="8.5">incerto</text>
+              <text x="186" y="190" font-size="8.5">certo</text>
+              <text x="133" y="350" font-size="8.5" fill="#00d4aa">SUL PC DELL'UTENTE</text>
+              <text x="500" y="114" font-size="8.5" fill="#6b6b75">FUORI DAL PC</text>
+            </g>
+          </svg>
+      <figcaption>Fig. 1 - Solo l'LLM sta fuori dal PC, e vede solo campi incerti, pagine utili e dati mascherati.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ─── PERCORSO ─── -->
+<section id="percorso">
+  <div class="section-tag">Percorso</div>
+  <h2>Dal cantiere<br>al software.</h2>
+  <div class="reveal">
+        <div class="track" aria-hidden="true">
+          <div class="year">2020</div><div class="year">2021</div><div class="year">2022</div><div class="year">2023</div><div class="year">2024</div><div class="year">2025</div><div class="year">2026</div>
+        </div>
+        <div class="span" style="margin-left:0;width:93%"><div class="line"></div><span class="lab">Edil Milanova srl<small>Burocrazia e POS di cantiere, 6 anni</small></span></div>
+        <div class="span end" style="margin-left:71.4%;width:28.6%"><div class="line"></div><span class="lab">M2 Studios<small>Co-fondatore</small></span></div>
+        <div class="span end" style="margin-left:74%;width:26%"><div class="line"></div><span class="lab">Freelance<small>PaperTrail</small></span></div>
+        <div class="span end now" style="margin-left:85.7%;width:14.3%"><div class="line"></div><span class="lab">Cantra<small>Fondatore</small></span></div>
+        <div class="span end now" style="margin-left:93%;width:7%"><div class="line"></div><span class="lab">Forever Bamb&ugrave;<small>AI Specialist</small></span></div>
+  </div>
+</section>
+
 <!-- ─── SKILLS ─── -->
 <section id="skills">
   <div class="section-tag">Competenze</div>
@@ -767,74 +922,50 @@
 
     <div class="skills-intro">
       <h2>Cosa<br>so fare.</h2>
-      <p>Non mi fermo sulla teoria. Ogni skill qui sotto è collegata a qualcosa che ho costruito o usato in un progetto reale.</p>
-      <p>Continuo ad imparare ogni giorno.</p>
+      <p>Ogni voce qui sotto &egrave; collegata a qualcosa che ho costruito e che gira davvero: sotto ogni voce, il progetto in cui l'ho usata.</p>
+      <p>Continuo a imparare ogni giorno.</p>
     </div>
 
     <div class="skills-grid">
 
       <div class="skill-group">
-        <h3>AI & LLM</h3>
-        <div class="skill-item">
-          <div class="skill-name">Prompt Engineering <span>85%</span></div>
-          <div class="skill-bar"><div class="skill-fill" data-w="85"></div></div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-name">Claude / GPT API <span>75%</span></div>
-          <div class="skill-bar"><div class="skill-fill" data-w="75"></div></div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-name">RAG & Embeddings <span>55%</span></div>
-          <div class="skill-bar"><div class="skill-fill" data-w="55"></div></div>
-        </div>
+        <h3>AI &amp; LLM</h3>
+        <ul class="skill-list">
+          <li>Estrazione strutturata da PDF e immagini <span>Cantra, PaperTrail</span></li>
+          <li>Pipeline ibride regole + LLM, citazioni verificate <span>Cantra</span></li>
+          <li>RAG, embedding, pgvector, ricerca ibrida <span>aggregAI</span></li>
+          <li>Claude, OpenAI, Gemini, Mistral, Groq, Ollama <span>Cantra, aggregAI</span></li>
+        </ul>
       </div>
 
       <div class="skill-group">
-        <h3>Automazioni</h3>
-        <div class="skill-item">
-          <div class="skill-name">N8N <span>70%</span></div>
-          <div class="skill-bar"><div class="skill-fill teal" data-w="70"></div></div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-name">Make (Integromat) <span>65%</span></div>
-          <div class="skill-bar"><div class="skill-fill teal" data-w="65"></div></div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-name">Zapier <span>60%</span></div>
-          <div class="skill-bar"><div class="skill-fill teal" data-w="60"></div></div>
-        </div>
+        <h3>Agenti &amp; automazione</h3>
+        <ul class="skill-list">
+          <li>Subagenti, hook e MCP su Claude Code <span>Cantra</span></li>
+          <li>Company brain interrogabile dall'AI <span>Forever Bamb&ugrave;</span></li>
+          <li>Pipeline di contenuti 24/7 con approvazione su Telegram <span>M2 Studios</span></li>
+          <li>n8n, Make</li>
+        </ul>
       </div>
 
       <div class="skill-group">
-        <h3>Development</h3>
-        <div class="skill-item">
-          <div class="skill-name">Python <span>65%</span></div>
-          <div class="skill-bar"><div class="skill-fill" data-w="65"></div></div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-name">HTML/CSS <span>70%</span></div>
-          <div class="skill-bar"><div class="skill-fill" data-w="70"></div></div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-name">JavaScript <span>50%</span></div>
-          <div class="skill-bar"><div class="skill-fill" data-w="50"></div></div>
-        </div>
+        <h3>Backend &amp; dati</h3>
+        <ul class="skill-list">
+          <li>TypeScript su Deno, Edge Functions <span>Cantra</span></li>
+          <li>PostgreSQL, Supabase, SQL <span>Cantra, aggregAI</span></li>
+          <li>Python, FastAPI <span>aggregAI</span></li>
+          <li>Stripe, webhook, email transazionali <span>Cantra</span></li>
+        </ul>
       </div>
 
       <div class="skill-group">
-        <h3>Tools & Stack</h3>
-        <div class="skill-item">
-          <div class="skill-name">Cursor / Windsurf <span>80%</span></div>
-          <div class="skill-bar"><div class="skill-fill teal" data-w="80"></div></div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-name">Supabase <span>60%</span></div>
-          <div class="skill-bar"><div class="skill-fill teal" data-w="60"></div></div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-name">Git / GitHub <span>65%</span></div>
-          <div class="skill-bar"><div class="skill-fill teal" data-w="65"></div></div>
-        </div>
+        <h3>App &amp; rilascio</h3>
+        <ul class="skill-list">
+          <li>Electron, JavaScript, React <span>Cantra, PaperTrail</span></li>
+          <li>Firma e notarizzazione, aggiornamento automatico <span>Cantra</span></li>
+          <li>Test automatici e golden test <span>Cantra</span></li>
+          <li>Cloudflare, Vercel, Linux / systemd</li>
+        </ul>
       </div>
 
     </div>
@@ -856,7 +987,8 @@
     <div class="socials">
       <!-- Aggiorna gli href con i tuoi profili reali -->
       <a class="social-link" href="https://linkedin.com/in/marcociocia" target="_blank">LinkedIn</a>
-      <a class="social-link" href="https://github.com/marcociocia" target="_blank">GitHub</a>
+      <a class="social-link" href="https://github.com/marco-ciocia-dev" target="_blank">GitHub</a>
+      <a class="social-link" href="https://cantra.it" target="_blank">Cantra</a>
       <!-- Aggiungi altri se hai Twitter/X, Behance, ecc. -->
     </div>
   </div>
@@ -864,7 +996,7 @@
 
 <!-- ─── FOOTER ─── -->
 <footer>
-  <p>© 2025 Marco Ciocia — Built with vibe coding</p>
+  <p>© 2026 Marco Ciocia</p>
   <div class="footer-status">
     <span class="status-dot"></span>
     Disponibile per opportunità
